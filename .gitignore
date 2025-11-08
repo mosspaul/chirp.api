@@ -1,0 +1,38 @@
+# Build outputs
+bin/
+obj/
+
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+
+# Auto-generated MSBuild files
+*.GeneratedMSBuildEditorConfig.editorconfig
+*.AssemblyInfo.cs
+*.AssemblyAttributes.cs
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+.nuget/
+*.nuget.props
+*.nuget.targets
+project.assets.json
+project.nuget.cache
+
+# Cache and logs
+*.cache
+*.log
+
+# IIS Express
+.vs/
+
+# Other
+*.swp
+.DS_Store
+Thumbs.db
