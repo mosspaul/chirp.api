@@ -2,6 +2,9 @@
 bin/
 obj/
 
+# Key vaults
+appsettings.json
+appsettings.Development.json
 
 # User-specific files
 *.user

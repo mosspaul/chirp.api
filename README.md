@@ -54,6 +54,7 @@ Chirp, the premier individual resource planner! Chirp will allow users to schedu
 4. Added projects to chirp.api solution `dotnet sln add api/api.csproj`
 5. Added references between projects `dotnet add api reference data/data.csproj`
 6. Added VSCode tasks and build file
+7. Added Migration capabilities `dotnet ef migrations add InitialCreate --project data --startup-project api && dotnet ef database update --project data --startup-project api`
 
 ## Next Steps
 - Code First db with EF Migrations
