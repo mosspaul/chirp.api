@@ -11,4 +11,8 @@
     <Folder Include="Managers/Interfaces/" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\data\data.csproj" />
+  </ItemGroup>
+
 </Project>

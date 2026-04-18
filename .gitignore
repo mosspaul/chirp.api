@@ -5,6 +5,7 @@ obj/
 # Key vaults
 appsettings.json
 appsettings.Development.json
+launchSettings.json
 
 # User-specific files
 *.user
