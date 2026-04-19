@@ -3,12 +3,12 @@ using core.DTOs.UserDtos;
 
 namespace core.Managers.Interfaces;
 
-public interface IUserManager
+public interface IUserAccountManager
 {
-    Task<ProfileDto?> SignUp(SignUpDto signUpDto);
-    Task<bool> Login(LoginDto loginDto);
-    Task<ProfileDto?> GetProfile(int userId);
+    Task<AuthTokenDto?> SignUp(SignUpDto signUpDto);
+    Task<string?> Login(LoginDto loginDto);
+    Task<ProfileDto?> GetProfile(string userId);
     Task<ProfileDto?> EditProfile(ProfileDto userDetailsDto);
-    Task<bool> DeleteAccount(int userId);
-    Task<bool> EditPassword(int userId, EditPasswordDto newPassword);
+    Task<bool> DeleteAccount(string userId);
+    Task<bool> EditPassword(string userId, EditPasswordDto newPassword);
 }

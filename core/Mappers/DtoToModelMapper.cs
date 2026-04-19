@@ -10,7 +10,7 @@ public class DtoToModelMapper : IDtoToModelMapper
     {
         return new User()
         {
-            Username = profile.Username,
+            UserName = profile.Username,
             PasswordHash = null,
             Email = profile.Email,
             FirstName = profile.FirstName,
@@ -24,13 +24,13 @@ public class DtoToModelMapper : IDtoToModelMapper
     {
         return new User()
         {
-            Username = signUp.Username,
+            UserName = signUp.Username,
             PasswordHash = signUp.Password,
             Email = signUp.Email,
             FirstName = signUp.FirstName,
             LastName = signUp.LastName,
             DateCreated = DateTime.UtcNow,
-            Id = 0
+            SimpleFinAccessUrl = null,
         };
     }
 }

@@ -14,10 +14,7 @@ Chirp, the premier individual resource planner! Chirp will allow users to schedu
     - _Basic visualizations_
 
     **Platforms:**
-    - Android
-    - Linux
-    - Windows
-    - Web?
+    - Web
 
 - ### **V2:** Event management and dynamic calendaring
 

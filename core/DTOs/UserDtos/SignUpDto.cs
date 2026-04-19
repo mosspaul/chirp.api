@@ -12,6 +12,8 @@ public class SignUpDto
     public required string FirstName { get; set; }
     [JsonPropertyName("last_name")]
     public required string LastName { get; set; }
+    [JsonPropertyName("simple_fin_token")]
+    public required string SimpleFinToken { get; set; }
     [JsonPropertyName("password")]
     public required string Password { get; set; }
 }
