@@ -56,7 +56,7 @@ public class UserRepository : IUserRepository
         return await GetUserById(userId);
     }
 
-    private async Task<User?> GetUserById(string userId)
+    public async Task<User?> GetUserById(string userId)
     {
         return await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }

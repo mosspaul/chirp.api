@@ -1,3 +1,4 @@
+using core.DTOs.SimpleFinDTOs;
 using Newtonsoft.Json;
 
 namespace core.Gateways;
@@ -24,6 +25,25 @@ public class SimpleFinBridgeGateway
         }
         string accessUrl = await response.Content.ReadAsStringAsync();
         return accessUrl;
+    }
+    public async Task<AccountSet?> GetAccountSet(string? userAccessUrl)
+    {
+        if (userAccessUrl == null)
+        {
+            throw new Exception("Access url can not be null");
+        }
+        var request = new HttpRequestMessage(
+            HttpMethod.Get,
+            userAccessUrl
+        );
+        var response = await _http.SendAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(response.ReasonPhrase);
+        }
+        string json = await response.Content.ReadAsStringAsync();
+        AccountSet? accountSet = JsonConvert.DeserializeObject<AccountSet>(json);
+        return accountSet;
     }
     private string DecodeToken(string base64Token)
     {
