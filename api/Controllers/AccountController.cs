@@ -8,21 +8,21 @@ namespace api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AccountController : ControllerBase
+public class AccountsController : ControllerBase
 {
     private readonly IAccountManager _accountManager;
-    public AccountController(IAccountManager accountManager)
+    public AccountsController(IAccountManager accountManager)
     {
         _accountManager = accountManager;
     }
 
     [Authorize]
-    [HttpGet("[controller]")]
+    [HttpGet("all")]
     public async Task<IActionResult> GetAccounts()
     {
         try
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new Exception("User not found");
             var accountSet = await _accountManager.GetAccountSet(userId);
             return accountSet != null ? Ok(accountSet) : NoContent();
         } catch (Exception ex)

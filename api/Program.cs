@@ -30,6 +30,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IUserAccountManager, UserAccountManager>();
 builder.Services.AddScoped<IDtoToModelMapper, DtoToModelMapper>();
 builder.Services.AddHttpClient<SimpleFinBridgeGateway>();
+builder.Services.AddScoped<IAccountManager, AccountManager>();
 
 // Add Data layer -> make function later
 builder.Services.AddScoped<IUserRepository, UserRepository>();

@@ -32,9 +32,17 @@ public class SimpleFinBridgeGateway
         {
             throw new Exception("Access url can not be null");
         }
-        var request = new HttpRequestMessage(
-            HttpMethod.Get,
-            userAccessUrl
+
+        var uri = new Uri(userAccessUrl);
+        var credentials = uri.UserInfo; // "username:password"
+        var base64Credentials = Convert.ToBase64String(
+            System.Text.Encoding.UTF8.GetBytes(credentials)
+        );
+        var cleanUrl = $"{uri.Scheme}://{uri.Host}{uri.AbsolutePath}/accounts?version=2";
+
+        var request = new HttpRequestMessage(HttpMethod.Get, cleanUrl);
+        request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
+            "Basic", base64Credentials
         );
         var response = await _http.SendAsync(request);
         if (!response.IsSuccessStatusCode)
