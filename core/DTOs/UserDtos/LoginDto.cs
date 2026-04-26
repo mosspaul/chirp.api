@@ -7,6 +7,6 @@ public class LoginDto
 {
     [JsonPropertyName("username")]
     public required string Username {get;set;}
-    [JsonPropertyName("username")]
+    [JsonPropertyName("password")]
     public required string Password {get;set;}
 }
