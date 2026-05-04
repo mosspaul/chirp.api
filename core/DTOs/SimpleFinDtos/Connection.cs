@@ -1,21 +1,24 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 
 namespace core.DTOs.SimpleFinDTOs;
 public class Connection
     {
-        [JsonPropertyName("conn_id")]
-        public required string ConnectionId { get; set; }
+        [JsonProperty("conn_id")]
+        public string ConnId { get; set; }
 
-        [JsonPropertyName("name")]
-        public required string Name { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
-        [JsonPropertyName("org_id")]
-        public required string OrganizationId { get; set; }
+        [JsonProperty("org_id")]
+        public string OrgId { get; set; }
 
-        [JsonPropertyName("org_url")]
-        public string? OrganizationUrl { get; set; }
+        [JsonProperty("org_name")]
+        public string OrgName { get; set; }
 
-        [JsonPropertyName("sfin_url")]
-        public required string SimpleFinUrl { get; set; }
+        [JsonProperty("org_url")]
+        public string OrgUrl { get; set; }
+
+        [JsonProperty("sfin_url")]
+        public string SfinUrl { get; set; }
     }

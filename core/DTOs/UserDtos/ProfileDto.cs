@@ -1,6 +1,6 @@
 
-using System.Text.Json.Serialization;
 using data.Models;
+using Newtonsoft.Json;
 
 namespace core.DTOs.UserDtos;
 
@@ -14,14 +14,14 @@ public class ProfileDto
         LastName = user.LastName;
         UserId = user.Id;
     }
-    [JsonPropertyName("username")]
+    [JsonProperty("username")]
     public string? Username { get; set; }
-    [JsonPropertyName("email")]
+    [JsonProperty("email")]
     public string? Email { get; set; }
-    [JsonPropertyName("first_name")]
+    [JsonProperty("first_name")]
     public string? FirstName { get; set; }
-    [JsonPropertyName("last_name")]
+    [JsonProperty("last_name")]
     public string? LastName { get; set; }
-    [JsonPropertyName("user_id")]
+    [JsonProperty("user_id")]
     public string UserId { get; set; }
 }

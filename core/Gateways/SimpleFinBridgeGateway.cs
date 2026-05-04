@@ -38,7 +38,8 @@ public class SimpleFinBridgeGateway
         var base64Credentials = Convert.ToBase64String(
             System.Text.Encoding.UTF8.GetBytes(credentials)
         );
-        var cleanUrl = $"{uri.Scheme}://{uri.Host}{uri.AbsolutePath}/accounts?version=2";
+        var date = 1777229897;
+        var cleanUrl = $"{uri.Scheme}://{uri.Host}{uri.AbsolutePath}/accounts?version=2&start-date={date}";
 
         var request = new HttpRequestMessage(HttpMethod.Get, cleanUrl);
         request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(

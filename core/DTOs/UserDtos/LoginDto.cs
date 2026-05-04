@@ -1,12 +1,11 @@
-using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace core.DTOs.UserDtos;
 
 public class LoginDto
 {
-    [JsonPropertyName("username")]
+    [JsonProperty("username")]
     public required string Username {get;set;}
-    [JsonPropertyName("password")]
+    [JsonProperty("password")]
     public required string Password {get;set;}
 }

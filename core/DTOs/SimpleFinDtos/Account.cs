@@ -1,35 +1,35 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace core.DTOs.SimpleFinDTOs;
 
 public class Account
 {
-    [JsonPropertyName("id")]
-    public required string Id { get; set; }
+    [JsonProperty("id")]
+        public string Id { get; set; }
 
-    [JsonPropertyName("name")]
-    public required string Name { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
-    [JsonPropertyName("conn_id")]
-    public required string ConnectionId { get; set; }
+        [JsonProperty("currency")]
+        public string Currency { get; set; }
 
-    [JsonPropertyName("currency")]
-    public required string Currency { get; set; }
+        [JsonProperty("balance")]
+        public string Balance { get; set; }
 
-    [JsonPropertyName("balance")]
-    public required string Balance { get; set; }
+        [JsonProperty("available-balance")]
+        public string AvailableBalance { get; set; }
 
-    [JsonPropertyName("available-balance")]
-    public string? AvailableBalance { get; set; }
+        [JsonProperty("balance-date")]
+        public int BalanceDate { get; set; }
 
-    [JsonPropertyName("balance-date")]
-    public int BalanceDate { get; set; }
+        [JsonProperty("transactions")]
+        public List<Transaction> Transactions { get; set; }
 
-    [JsonPropertyName("transactions")]
-    public List<Transaction>? Transactions { get; set; }
+        [JsonProperty("holdings")]
+        public List<Holding> Holdings { get; set; }
 
-    [JsonPropertyName("extra")]
-    public Extra? Extra { get; set; }
+        [JsonProperty("conn_id")]
+        public string ConnId { get; set; }
 
     public DateTime ConvertTimestampToDate(int unixTimestamp)
     {

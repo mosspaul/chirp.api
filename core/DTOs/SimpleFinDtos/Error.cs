@@ -1,16 +1,16 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 public class Error
 {
-    [JsonPropertyName("code")]
+    [JsonProperty("code")]
     public required string Code { get; set; }
 
-    [JsonPropertyName("msg")]
+    [JsonProperty("msg")]
     public required string Message { get; set; }
 
-    [JsonPropertyName("account_id")]
+    [JsonProperty("account_id")]
     public string? AccountId { get; set; }
     
-    [JsonPropertyName("conn_id")]
+    [JsonProperty("conn_id")]
     public string? ConnectionId { get; set; }
 }

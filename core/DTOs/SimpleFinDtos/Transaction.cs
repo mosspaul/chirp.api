@@ -1,26 +1,29 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace core.DTOs.SimpleFinDTOs;
 
 public class Transaction
 {
-    [JsonPropertyName("id")]
-    public required string Id { get; set; }
+    [JsonProperty("id")]
+    public string Id { get; set; }
 
-    [JsonPropertyName("posted")]
-    public required int Posted { get; set; }
+    [JsonProperty("posted")]
+    public int Posted { get; set; }
 
-    [JsonPropertyName("amount")]
-    public required string Amount { get; set; }
+    [JsonProperty("amount")]
+    public string Amount { get; set; }
 
-    [JsonPropertyName("description")]
-    public required string Description { get; set; }
+    [JsonProperty("description")]
+    public string Description { get; set; }
 
-    [JsonPropertyName("transacted_at")]
-    public int? TransactionDate { get; set; }
+    [JsonProperty("payee")]
+    public string Payee { get; set; }
 
-    [JsonPropertyName("pending")]
-    public bool? Pending { get; set; }
+    [JsonProperty("memo")]
+    public string Memo { get; set; }
+
+    [JsonProperty("transacted_at")]
+    public int TransactedAt { get; set; }
 
     public DateTime ConvertTimestampToDate(int unixTimestamp)
     {

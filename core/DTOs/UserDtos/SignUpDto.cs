@@ -1,19 +1,19 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace core.DTOs.UserDtos;
 
 public class SignUpDto
 {
-    [JsonPropertyName("username")]
+    [JsonProperty("username")]
     public required string Username { get; set; }
-    [JsonPropertyName("email")]
+    [JsonProperty("email")]
     public required string Email { get; set; }
-    [JsonPropertyName("first_name")]
+    [JsonProperty("first_name")]
     public required string FirstName { get; set; }
-    [JsonPropertyName("last_name")]
+    [JsonProperty("last_name")]
     public required string LastName { get; set; }
-    [JsonPropertyName("simple_fin_token")]
+    [JsonProperty("simple_fin_token")]
     public required string SimpleFinToken { get; set; }
-    [JsonPropertyName("password")]
+    [JsonProperty("password")]
     public required string Password { get; set; }
 }
