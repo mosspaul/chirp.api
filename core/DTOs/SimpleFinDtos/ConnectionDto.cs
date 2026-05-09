@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 
 namespace core.DTOs.SimpleFinDTOs;
-public class Connection
+public class ConnectionDto
     {
         [JsonProperty("conn_id")]
         public string ConnId { get; set; }

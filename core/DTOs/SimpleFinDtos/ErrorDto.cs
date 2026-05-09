@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-public class Error
+public class ErrorDto
 {
     [JsonProperty("code")]
     public required string Code { get; set; }

@@ -74,5 +74,10 @@ public class UserRepository : IUserRepository
         var existingUser = await _db.Users.FirstOrDefaultAsync(u => u.UserName == newUser.UserName || u.Email == newUser.Email);
         return existingUser == null;
     }
+
+    public async Task<List<User>> GetUsersWithSimpleFinAccessUrl(CancellationToken ct)
+    {
+        return await _db.Users.Where(user => user.SimpleFinAccessUrl != null).ToListAsync(ct);
+    }
 }
 

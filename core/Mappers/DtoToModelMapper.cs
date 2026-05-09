@@ -1,3 +1,4 @@
+using core.DTOs.SimpleFinDTOs;
 using core.DTOs.UserDtos;
 using core.Mappers.Interfaces;
 using data.Models;
@@ -32,5 +33,21 @@ public class DtoToModelMapper : IDtoToModelMapper
             DateCreated = DateTime.UtcNow,
             SimpleFinAccessUrl = null,
         };
+    }
+    public List<Connection> ConnectionDtoToConnection(List<ConnectionDto> connectionDtos)
+    {
+        var final = new List<Connection>();
+        foreach (var dto in connectionDtos)
+        {
+            final.Add(new Connection()
+            {
+                Id = 0,
+                Name = dto.Name,
+                MxId = dto.OrgId,
+                Url = dto.OrgUrl,
+                SimpleFinConnId = dto.ConnId
+            });
+        }
+        return final;
     }
 }

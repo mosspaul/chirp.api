@@ -6,5 +6,8 @@ namespace data.DbContexts;
 public class ChirpDbContext : IdentityDbContext<User>
 {
     public ChirpDbContext(DbContextOptions options) : base(options) { }
-    public DbSet<Expense> Expenses {get; set; }
+    public DbSet<Connection> Connections {get; set; }
+    public DbSet<Account> Accounts {get; set; }
+    public DbSet<Transaction> Transactions {get; set; }
+    public DbSet<Holding> Holdings {get; set; }
 } 

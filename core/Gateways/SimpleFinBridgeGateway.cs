@@ -6,9 +6,11 @@ namespace core.Gateways;
 public class SimpleFinBridgeGateway
 {
     private readonly HttpClient _http;
-    public SimpleFinBridgeGateway(HttpClient http)
+    private readonly DateUtility _dateUtility;
+    public SimpleFinBridgeGateway(HttpClient http, DateUtility dateUtility)
     {
         _http = http;
+        _dateUtility = dateUtility;
     }
 
     public async Task<string> GetAccessUrl(string simpleFinToken)
@@ -26,7 +28,7 @@ public class SimpleFinBridgeGateway
         string accessUrl = await response.Content.ReadAsStringAsync();
         return accessUrl;
     }
-    public async Task<AccountSet?> GetAccountSet(string? userAccessUrl)
+    public async Task<AccountSetDto?> GetAccountSet(string? userAccessUrl, CancellationToken ct)
     {
         if (userAccessUrl == null)
         {
@@ -38,20 +40,22 @@ public class SimpleFinBridgeGateway
         var base64Credentials = Convert.ToBase64String(
             System.Text.Encoding.UTF8.GetBytes(credentials)
         );
-        var date = 1777229897;
-        var cleanUrl = $"{uri.Scheme}://{uri.Host}{uri.AbsolutePath}/accounts?version=2&start-date={date}";
+
+        var lastMonth = DateTime.Now.AddDays(-30);
+        var timestamp = _dateUtility.ConvertDateToTimestamp(lastMonth);
+        var cleanUrl = $"{uri.Scheme}://{uri.Host}{uri.AbsolutePath}/accounts?version=2&start-date={timestamp}";
 
         var request = new HttpRequestMessage(HttpMethod.Get, cleanUrl);
         request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
             "Basic", base64Credentials
         );
-        var response = await _http.SendAsync(request);
+        var response = await _http.SendAsync(request, ct);
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception(response.ReasonPhrase);
         }
-        string json = await response.Content.ReadAsStringAsync();
-        AccountSet? accountSet = JsonConvert.DeserializeObject<AccountSet>(json);
+        string json = await response.Content.ReadAsStringAsync(ct);
+        AccountSetDto? accountSet = JsonConvert.DeserializeObject<AccountSetDto>(json);
         return accountSet;
     }
     private string DecodeToken(string base64Token)

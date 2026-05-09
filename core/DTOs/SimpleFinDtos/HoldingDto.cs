@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 
 namespace core.DTOs.SimpleFinDTOs;
-public class Holding
+public class HoldingDto
     {
         [JsonProperty("id")]
         public string Id { get; set; }

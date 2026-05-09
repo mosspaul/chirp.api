@@ -1,5 +1,7 @@
 using System.Text;
 using core.Gateways;
+using core.Jobs;
+using core.Jobs.Interfaces;
 using core.Managers;
 using core.Managers.Interfaces;
 using core.Mappers;
@@ -25,12 +27,14 @@ var connectionString =
     $"Host={host};Port=5432;Database={db};Username={user};Password={pass}";
 
 builder.Services.AddControllers();
+builder.Services.AddHostedService<SimpleFinSyncService>();
 
 // Add Core layer -> make function later
 builder.Services.AddScoped<IUserAccountManager, UserAccountManager>();
 builder.Services.AddScoped<IDtoToModelMapper, DtoToModelMapper>();
 builder.Services.AddHttpClient<SimpleFinBridgeGateway>();
-builder.Services.AddScoped<IAccountManager, AccountManager>();
+builder.Services.AddScoped<ISimpleFinManager, SimpleFinManager>();
+builder.Services.AddScoped<ISimpleFinSyncJob, SimpleFinSyncJob>();
 
 // Add Data layer -> make function later
 builder.Services.AddScoped<IUserRepository, UserRepository>();
