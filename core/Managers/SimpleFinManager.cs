@@ -23,7 +23,7 @@ public class SimpleFinManager : ISimpleFinManager
         if (accountSet != null)
         {
             var connections = _mapper.AccountSetToModels(accountSet, userId);
-            await _financeRepo.UpsertConnections(connections);
+            await _financeRepo.UpsertConnections(connections, ct);
 
         }
        

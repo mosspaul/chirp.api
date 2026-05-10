@@ -66,6 +66,7 @@ public class DtoToModelMapper : IDtoToModelMapper
                 AvailableBalance = double.Parse(accountDto.AvailableBalance),
                 BalanceDate = DateUtility.ConvertTimestampToDate(accountDto.BalanceDate),
                 SimpleFinConnId = accountDto.ConnId,
+                SFinId = accountDto.Id,
                 Holdings = HoldingDtoToHolding(accountDto.Holdings),
                 Transactions = TransactionDtoToTransaction(accountDto.Transactions),
 
@@ -87,6 +88,7 @@ public class DtoToModelMapper : IDtoToModelMapper
                 Description = holdingDto.Description,
                 Currency = holdingDto.Currency,
                 Symbol = holdingDto.Symbol,
+                SFinId = holdingDto.Id,
                 CreatedAt = DateUtility.ConvertTimestampToDate(holdingDto.Created)
             });
         }
@@ -102,6 +104,7 @@ public class DtoToModelMapper : IDtoToModelMapper
                 Posted = DateUtility.ConvertTimestampToDate(transDto.Posted),
                 TransactedAt = DateUtility.ConvertTimestampToDate(transDto.TransactedAt),
                 Description = transDto.Description,
+                SFinId = transDto.Id,
                 Memo = transDto.Memo,
                 Payee = transDto.Payee,
                 Amount = double.Parse(transDto.Amount),
