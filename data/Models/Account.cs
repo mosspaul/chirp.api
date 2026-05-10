@@ -16,6 +16,7 @@ public class Account
     public double Balance {get;set;}
     public double AvailableBalance {get;set;}
     public DateTime BalanceDate {get;set;}
+    public string SFinId {get;set;}
     public string SimpleFinConnId {get;set;}
 
     public ICollection<Holding> Holdings { get; set; } = new List<Holding>();

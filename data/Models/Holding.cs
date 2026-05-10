@@ -12,6 +12,7 @@ public class Holding
     public int AccountId {get;set;}
     public Account Account {get;set;}
     public double Shares {get;set;}
+    public string SFinId {get;set;}
     public double CostBasis {get;set;}
     public double PurchasePrice {get;set;}
     public double MarketValue {get;set;}

@@ -11,6 +11,7 @@ public class Transaction
     public int Id {get; set;}
     public int AccountId {get;set;}
     public Account Account {get;set;}
+    public string SFinId {get;set;}
     public DateTime Posted {get;set;}
     public DateTime TransactedAt {get;set;}
     public string? Description {get;set;}
