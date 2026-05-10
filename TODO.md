@@ -6,8 +6,10 @@
 5. Re-add the chirp database by applying migrations
 
 ## Next Steps
-- Build a `Utilities` folder in `Core` and add a class that has helper methods for converting UTC timestamps to DateTime and vice versa.
-- Add a Background service that calls the SimpleFin API every 4 hours (dates can be from last month).
-- Add `Transaction`, `Holding`, `Connection` and `Account` as database tables. 
-- Build onto the `DtoToModelMapper` to convert the `AccountSet` to the above tables, considering relations as well (update vs create).
-- Rework the front-facing API to get the database tables and not call the SimpleFin API.
+- [x] Build a `Utilities` folder in `Core` and add a class that has helper methods for converting UTC timestamps to DateTime and vice versa.
+- [x] Add a Background service that calls the SimpleFin API every 4 hours (dates can be from last month).
+- [x] Add `Transaction`, `Holding`, `Connection` and `Account` as database tables. 
+- [x] Build onto the `DtoToModelMapper` to convert the `AccountSet` to the above tables, considering relations as well (update vs create).
+- [x] **Very Important**: Make the SyncJob update and not create duplicated connections/accounts etc
+- [ ] Rework the front-facing API to get the database tables and not call the SimpleFin API.
+- [ ] Add DTOS to not directly pass down the models and have more control over display
