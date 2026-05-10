@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using core.Gateways;
 using core.Jobs;
 using core.Jobs.Interfaces;
@@ -10,6 +11,8 @@ using data.DbContexts;
 using data.Models;
 using data.Repositories;
 using data.Repositories.Interfaces;
+using Managers;
+using Managers.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +31,10 @@ var connectionString =
 
 builder.Services.AddControllers();
 builder.Services.AddHostedService<SimpleFinSyncService>();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 
 // Add Core layer -> make function later
 builder.Services.AddScoped<IUserAccountManager, UserAccountManager>();
@@ -35,6 +42,7 @@ builder.Services.AddScoped<IDtoToModelMapper, DtoToModelMapper>();
 builder.Services.AddHttpClient<SimpleFinBridgeGateway>();
 builder.Services.AddScoped<ISimpleFinManager, SimpleFinManager>();
 builder.Services.AddScoped<ISimpleFinSyncJob, SimpleFinSyncJob>();
+builder.Services.AddScoped<IFinanceManager, FinanceManager>();
 
 // Add Data layer -> make function later
 builder.Services.AddScoped<IUserRepository, UserRepository>();
