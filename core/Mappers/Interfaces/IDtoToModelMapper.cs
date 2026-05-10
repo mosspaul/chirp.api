@@ -1,4 +1,4 @@
-using System;
+using core.DTOs.SimpleFinDTOs;
 using core.DTOs.UserDtos;
 using data.Models;
 
@@ -8,4 +8,5 @@ public interface IDtoToModelMapper
 {
     User ProfileToUser(ProfileDto profile);
     User SignUpToUser(SignUpDto signUpDto);
+    List<Connection> AccountSetToModels(AccountSetDto accountSetDto, string userId);
 }

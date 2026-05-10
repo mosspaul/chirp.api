@@ -14,7 +14,7 @@ public class Holding
     public double Shares {get;set;}
     public double CostBasis {get;set;}
     public double PurchasePrice {get;set;}
-    public double CurrentPrice {get;set;}
+    public double MarketValue {get;set;}
     public string? Description {get;set;}
     public string? Currency {get;set;}
     public string? Symbol {get; set;}

@@ -38,6 +38,7 @@ builder.Services.AddScoped<ISimpleFinSyncJob, SimpleFinSyncJob>();
 
 // Add Data layer -> make function later
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFinanceRepository, FinanceRepository>();
 
 
 builder.Services.AddDbContext<ChirpDbContext>(opt =>

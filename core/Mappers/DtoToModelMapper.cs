@@ -34,18 +34,77 @@ public class DtoToModelMapper : IDtoToModelMapper
             SimpleFinAccessUrl = null,
         };
     }
-    public List<Connection> ConnectionDtoToConnection(List<ConnectionDto> connectionDtos)
+    public List<Connection> AccountSetToModels(AccountSetDto accountSetDto, string userId)
     {
         var final = new List<Connection>();
-        foreach (var dto in connectionDtos)
+        foreach (var connectionDto in accountSetDto.Connections)
         {
             final.Add(new Connection()
             {
                 Id = 0,
-                Name = dto.Name,
-                MxId = dto.OrgId,
-                Url = dto.OrgUrl,
-                SimpleFinConnId = dto.ConnId
+                Name = connectionDto.Name,
+                UserId = userId,
+                MxId = connectionDto.OrgId,
+                Url = connectionDto.OrgUrl,
+                SimpleFinConnId = connectionDto.ConnId,
+                Accounts = AccountDtoToAccount([.. accountSetDto.Accounts.Where(acc => acc.ConnId == connectionDto.ConnId)])
+            });
+        }
+        return final;
+    }
+    private List<Account> AccountDtoToAccount(List<AccountDto> accountDtos)
+    {
+        var final = new List<Account>();
+        foreach (var accountDto in accountDtos)
+        {
+            final.Add(new Account()
+            {
+                Id = 0,
+                Name = accountDto.Name,
+                Currency = accountDto.Currency,
+                Balance = double.Parse(accountDto.Balance),
+                AvailableBalance = double.Parse(accountDto.AvailableBalance),
+                BalanceDate = DateUtility.ConvertTimestampToDate(accountDto.BalanceDate),
+                SimpleFinConnId = accountDto.ConnId,
+                Holdings = HoldingDtoToHolding(accountDto.Holdings),
+                Transactions = TransactionDtoToTransaction(accountDto.Transactions),
+
+            });
+        }
+        return final;
+    }
+    private List<Holding> HoldingDtoToHolding(List<HoldingDto> holdingDtos)
+    {
+        var final = new List<Holding> ();
+        foreach (var holdingDto in holdingDtos)
+        {
+            final.Add(new Holding()
+            {
+                Shares = double.Parse(holdingDto.Shares),
+                CostBasis = double.Parse(holdingDto.CostBasis),
+                PurchasePrice = double.Parse(holdingDto.PurchasePrice),
+                MarketValue = double.Parse(holdingDto.MarketValue),
+                Description = holdingDto.Description,
+                Currency = holdingDto.Currency,
+                Symbol = holdingDto.Symbol,
+                CreatedAt = DateUtility.ConvertTimestampToDate(holdingDto.Created)
+            });
+        }
+        return final;
+    }
+    private List<Transaction> TransactionDtoToTransaction(List<TransactionDto> transactionDtos)
+    {
+        var final = new List<Transaction> ();
+        foreach (var transDto in transactionDtos)
+        {
+            final.Add(new Transaction()
+            {
+                Posted = DateUtility.ConvertTimestampToDate(transDto.Posted),
+                TransactedAt = DateUtility.ConvertTimestampToDate(transDto.TransactedAt),
+                Description = transDto.Description,
+                Memo = transDto.Memo,
+                Payee = transDto.Payee,
+                Amount = double.Parse(transDto.Amount),
             });
         }
         return final;

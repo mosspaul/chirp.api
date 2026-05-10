@@ -6,11 +6,9 @@ namespace core.Gateways;
 public class SimpleFinBridgeGateway
 {
     private readonly HttpClient _http;
-    private readonly DateUtility _dateUtility;
-    public SimpleFinBridgeGateway(HttpClient http, DateUtility dateUtility)
+    public SimpleFinBridgeGateway(HttpClient http)
     {
         _http = http;
-        _dateUtility = dateUtility;
     }
 
     public async Task<string> GetAccessUrl(string simpleFinToken)
@@ -42,7 +40,7 @@ public class SimpleFinBridgeGateway
         );
 
         var lastMonth = DateTime.Now.AddDays(-30);
-        var timestamp = _dateUtility.ConvertDateToTimestamp(lastMonth);
+        var timestamp = DateUtility.ConvertDateToTimestamp(lastMonth);
         var cleanUrl = $"{uri.Scheme}://{uri.Host}{uri.AbsolutePath}/accounts?version=2&start-date={timestamp}";
 
         var request = new HttpRequestMessage(HttpMethod.Get, cleanUrl);
