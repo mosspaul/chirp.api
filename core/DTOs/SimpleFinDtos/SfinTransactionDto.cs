@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace core.DTOs.SimpleFinDTOs;
 
-public class TransactionDto
+public class SfinTransactionDto
 {
     [JsonProperty("id")]
     public string Id { get; set; }

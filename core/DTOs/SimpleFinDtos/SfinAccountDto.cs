@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace core.DTOs.SimpleFinDTOs;
 
-public class AccountDto
+public class SfinAccountDto
 {
     [JsonProperty("id")]
         public string Id { get; set; }
@@ -23,10 +23,10 @@ public class AccountDto
         public int BalanceDate { get; set; }
 
         [JsonProperty("transactions")]
-        public List<TransactionDto> Transactions { get; set; }
+        public List<SfinTransactionDto> Transactions { get; set; }
 
         [JsonProperty("holdings")]
-        public List<HoldingDto> Holdings { get; set; }
+        public List<SfinHoldingDto> Holdings { get; set; }
 
         [JsonProperty("conn_id")]
         public string ConnId { get; set; }

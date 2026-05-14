@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-public class ErrorDto
+public class SfinErrorDto
 {
     [JsonProperty("code")]
     public required string Code { get; set; }
