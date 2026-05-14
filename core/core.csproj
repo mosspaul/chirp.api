@@ -15,4 +15,8 @@
     <ProjectReference Include="..\data\data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs/FinanceDtos/" />
+  </ItemGroup>
+
 </Project>
