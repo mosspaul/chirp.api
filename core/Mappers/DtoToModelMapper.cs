@@ -34,7 +34,7 @@ public class DtoToModelMapper : IDtoToModelMapper
             SimpleFinAccessUrl = null,
         };
     }
-    public List<Connection> AccountSetToModels(AccountSetDto accountSetDto, string userId)
+    public List<Connection> AccountSetToModels(SfinAccountSetDto accountSetDto, string userId)
     {
         var final = new List<Connection>();
         foreach (var connectionDto in accountSetDto.Connections)
@@ -52,7 +52,7 @@ public class DtoToModelMapper : IDtoToModelMapper
         }
         return final;
     }
-    private List<Account> AccountDtoToAccount(List<AccountDto> accountDtos)
+    private List<Account> AccountDtoToAccount(List<SfinAccountDto> accountDtos)
     {
         var final = new List<Account>();
         foreach (var accountDto in accountDtos)
@@ -74,7 +74,7 @@ public class DtoToModelMapper : IDtoToModelMapper
         }
         return final;
     }
-    private List<Holding> HoldingDtoToHolding(List<HoldingDto> holdingDtos)
+    private List<Holding> HoldingDtoToHolding(List<SfinHoldingDto> holdingDtos)
     {
         var final = new List<Holding> ();
         foreach (var holdingDto in holdingDtos)
@@ -94,7 +94,7 @@ public class DtoToModelMapper : IDtoToModelMapper
         }
         return final;
     }
-    private List<Transaction> TransactionDtoToTransaction(List<TransactionDto> transactionDtos)
+    private List<Transaction> TransactionDtoToTransaction(List<SfinTransactionDto> transactionDtos)
     {
         var final = new List<Transaction> ();
         foreach (var transDto in transactionDtos)

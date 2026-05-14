@@ -18,7 +18,7 @@ public class SimpleFinManager : ISimpleFinManager
         _financeRepo = financeRepository;
         _mapper = mapper;
     }
-    public async Task ConvertAccountSet(AccountSetDto? accountSet, string userId, CancellationToken ct)
+    public async Task ConvertAccountSet(SfinAccountSetDto? accountSet, string userId, CancellationToken ct)
     {
         if (accountSet != null)
         {

@@ -5,5 +5,5 @@ namespace core.Managers.Interfaces;
 
 public interface ISimpleFinManager
 {
-    Task ConvertAccountSet(AccountSetDto? data, string userId, CancellationToken ct);
+    Task ConvertAccountSet(SfinAccountSetDto? data, string userId, CancellationToken ct);
 }

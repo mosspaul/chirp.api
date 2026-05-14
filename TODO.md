@@ -11,5 +11,6 @@
 - [x] Add `Transaction`, `Holding`, `Connection` and `Account` as database tables. 
 - [x] Build onto the `DtoToModelMapper` to convert the `AccountSet` to the above tables, considering relations as well (update vs create).
 - [x] **Very Important**: Make the SyncJob update and not create duplicated connections/accounts etc
-- [ ] Rework the front-facing API to get the database tables and not call the SimpleFin API.
-- [ ] Add DTOS to not directly pass down the models and have more control over display
+- [x] Rework the front-facing API to get the database tables and not call the SimpleFin API.
+- [x] Add DTOS to not directly pass down the models and have more control over display
+- [ ] Investigate time it takes for a transaction to show up - posible bug

@@ -26,7 +26,7 @@ public class SimpleFinBridgeGateway
         string accessUrl = await response.Content.ReadAsStringAsync();
         return accessUrl;
     }
-    public async Task<AccountSetDto?> GetAccountSet(string? userAccessUrl, CancellationToken ct)
+    public async Task<SfinAccountSetDto?> GetAccountSet(string? userAccessUrl, CancellationToken ct)
     {
         if (userAccessUrl == null)
         {
@@ -53,7 +53,7 @@ public class SimpleFinBridgeGateway
             throw new Exception(response.ReasonPhrase);
         }
         string json = await response.Content.ReadAsStringAsync(ct);
-        AccountSetDto? accountSet = JsonConvert.DeserializeObject<AccountSetDto>(json);
+        SfinAccountSetDto? accountSet = JsonConvert.DeserializeObject<SfinAccountSetDto>(json);
         return accountSet;
     }
     private string DecodeToken(string base64Token)

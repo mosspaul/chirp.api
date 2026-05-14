@@ -8,5 +8,5 @@ public interface IDtoToModelMapper
 {
     User ProfileToUser(ProfileDto profile);
     User SignUpToUser(SignUpDto signUpDto);
-    List<Connection> AccountSetToModels(AccountSetDto accountSetDto, string userId);
+    List<Connection> AccountSetToModels(SfinAccountSetDto accountSetDto, string userId);
 }
