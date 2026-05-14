@@ -1,9 +1,8 @@
-using data.Models;
-using Microsoft.Extensions.DependencyInjection;
+using core.DTOs.FinanceDtos;
 
 namespace Managers.Interfaces;
 
 public interface IFinanceManager
 {
-    Task<List<Connection>> GetConnections(string userId);
+    Task<List<ConnectionDto>> GetConnections(string userId);
 }

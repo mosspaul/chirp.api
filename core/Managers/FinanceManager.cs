@@ -1,3 +1,4 @@
+using core.DTOs.FinanceDtos;
 using data.Models;
 using data.Repositories.Interfaces;
 using Managers.Interfaces;
@@ -11,8 +12,9 @@ public class FinanceManager : IFinanceManager
     {
         _financeRepo = financeRepo;
     }
-    public async Task<List<Connection>> GetConnections(string userId)
+    public async Task<List<ConnectionDto>> GetConnections(string userId)
     {
-        return await _financeRepo.GetConnectionsForUser(userId);
+        var connections = await _financeRepo.GetConnectionsForUser(userId);
+        return connections.Select(c => new ConnectionDto(c)).ToList();
     }
 }

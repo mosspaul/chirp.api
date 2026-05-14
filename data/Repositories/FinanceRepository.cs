@@ -16,8 +16,15 @@ public class FinanceRepository : IFinanceRepository
 
     public async Task<List<Connection>> GetConnectionsForUser(string userId)
     {
-        return await _db.Connections.Where(conn => conn.UserId == userId)
-        .Include(conn => conn.Accounts).ToListAsync();
+        var query =  _db.Connections
+        .Where(conn => conn.UserId == userId)
+        .Include(conn => conn.Accounts)
+            .ThenInclude(acc => acc.Holdings)
+        .Include(conn => conn.Accounts)
+            .ThenInclude(acc => acc.Transactions)
+        .AsSplitQuery();
+        
+        return await query.ToListAsync();
     }
 
     public async Task UpsertConnections(List<Connection> connections, CancellationToken ct)
