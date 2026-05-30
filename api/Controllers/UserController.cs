@@ -17,6 +17,13 @@ public class UserController : ControllerBase
         _userManager = userManager;
         _config = config;
     }
+    // GET validate -> ensures a token has been validated
+    [HttpGet("validate")]
+    [Authorize]
+    public IActionResult ValidateToken()
+    {
+        return Ok();
+    }
 
     // POST SignUp -> receives a userdto and password and then maps to user 
     [HttpPost("signup")]
