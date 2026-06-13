@@ -26,4 +26,8 @@
     <ProjectReference Include="..\data\data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BackgroundServices/" />
+  </ItemGroup>
+
 </Project>

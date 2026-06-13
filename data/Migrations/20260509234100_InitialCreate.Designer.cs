@@ -12,8 +12,8 @@ using data.DbContexts;
 namespace data.Migrations
 {
     [DbContext(typeof(ChirpDbContext))]
-    [Migration("20260419002722_AddAuth")]
-    partial class AddAuth
+    [Migration("20260509234100_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -157,7 +157,7 @@ namespace data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("data.Models.Expense", b =>
+            modelBuilder.Entity("data.Models.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -165,23 +165,148 @@ namespace data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
+                    b.Property<double>("AvailableBalance")
+                        .HasColumnType("double precision");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<double>("Balance")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("BalanceDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("ConnectionId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("UserId1")
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SimpleFinConnId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("ConnectionId");
 
-                    b.ToTable("Expenses");
+                    b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("data.Models.Connection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("MxId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SimpleFinConnId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Connections");
+                });
+
+            modelBuilder.Entity("data.Models.Holding", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("CostBasis")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<double>("MarketValue")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("PurchasePrice")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Shares")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Holdings");
+                });
+
+            modelBuilder.Entity("data.Models.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Memo")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Payee")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Posted")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("TransactedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("data.Models.User", b =>
@@ -311,13 +436,60 @@ namespace data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("data.Models.Expense", b =>
+            modelBuilder.Entity("data.Models.Account", b =>
+                {
+                    b.HasOne("data.Models.Connection", "Connection")
+                        .WithMany("Accounts")
+                        .HasForeignKey("ConnectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Connection");
+                });
+
+            modelBuilder.Entity("data.Models.Connection", b =>
                 {
                     b.HasOne("data.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("data.Models.Holding", b =>
+                {
+                    b.HasOne("data.Models.Account", "Account")
+                        .WithMany("Holdings")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("data.Models.Transaction", b =>
+                {
+                    b.HasOne("data.Models.Account", "Account")
+                        .WithMany("Transactions")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("data.Models.Account", b =>
+                {
+                    b.Navigation("Holdings");
+
+                    b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("data.Models.Connection", b =>
+                {
+                    b.Navigation("Accounts");
                 });
 #pragma warning restore 612, 618
         }

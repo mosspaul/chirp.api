@@ -9,4 +9,6 @@ public interface IUserRepository
     Task<User?> EditProfile(User user);
     Task<bool> DeleteAccount(string userId);
     Task<bool> EditPassword(string userId, string newPassword);
+    Task<User?> GetUserById(string userId);
+    Task<List<User>> GetUsersWithSimpleFinAccessUrl(CancellationToken ct);
 }

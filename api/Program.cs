@@ -1,5 +1,8 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using core.Gateways;
+using core.Jobs;
+using core.Jobs.Interfaces;
 using core.Managers;
 using core.Managers.Interfaces;
 using core.Mappers;
@@ -8,6 +11,8 @@ using data.DbContexts;
 using data.Models;
 using data.Repositories;
 using data.Repositories.Interfaces;
+using Managers;
+using Managers.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -25,14 +30,23 @@ var connectionString =
     $"Host={host};Port=5432;Database={db};Username={user};Password={pass}";
 
 builder.Services.AddControllers();
+builder.Services.AddHostedService<SimpleFinSyncService>();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 
 // Add Core layer -> make function later
 builder.Services.AddScoped<IUserAccountManager, UserAccountManager>();
 builder.Services.AddScoped<IDtoToModelMapper, DtoToModelMapper>();
 builder.Services.AddHttpClient<SimpleFinBridgeGateway>();
+builder.Services.AddScoped<ISimpleFinManager, SimpleFinManager>();
+builder.Services.AddScoped<ISimpleFinSyncJob, SimpleFinSyncJob>();
+builder.Services.AddScoped<IFinanceManager, FinanceManager>();
 
 // Add Data layer -> make function later
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFinanceRepository, FinanceRepository>();
 
 
 builder.Services.AddDbContext<ChirpDbContext>(opt =>
@@ -57,6 +71,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -78,6 +102,8 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
+app.UseRouting();
+app.UseCors("AllowAngular");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

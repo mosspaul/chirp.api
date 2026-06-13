@@ -1,3 +1,4 @@
+using core.DTOs.SimpleFinDTOs;
 using Newtonsoft.Json;
 
 namespace core.Gateways;
@@ -24,6 +25,36 @@ public class SimpleFinBridgeGateway
         }
         string accessUrl = await response.Content.ReadAsStringAsync();
         return accessUrl;
+    }
+    public async Task<SfinAccountSetDto?> GetAccountSet(string? userAccessUrl, CancellationToken ct)
+    {
+        if (userAccessUrl == null)
+        {
+            throw new Exception("Access url can not be null");
+        }
+
+        var uri = new Uri(userAccessUrl);
+        var credentials = uri.UserInfo; // "username:password"
+        var base64Credentials = Convert.ToBase64String(
+            System.Text.Encoding.UTF8.GetBytes(credentials)
+        );
+
+        var lastMonth = DateTime.Now.AddDays(-30);
+        var timestamp = DateUtility.ConvertDateToTimestamp(lastMonth);
+        var cleanUrl = $"{uri.Scheme}://{uri.Host}{uri.AbsolutePath}/accounts?version=2&start-date={timestamp}";
+
+        var request = new HttpRequestMessage(HttpMethod.Get, cleanUrl);
+        request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
+            "Basic", base64Credentials
+        );
+        var response = await _http.SendAsync(request, ct);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(response.ReasonPhrase);
+        }
+        string json = await response.Content.ReadAsStringAsync(ct);
+        SfinAccountSetDto? accountSet = JsonConvert.DeserializeObject<SfinAccountSetDto>(json);
+        return accountSet;
     }
     private string DecodeToken(string base64Token)
     {
