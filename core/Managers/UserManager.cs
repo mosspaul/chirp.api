@@ -51,13 +51,16 @@ public class UserAccountManager : IUserAccountManager
         return user != null ? new ProfileDto(user) : null;
     }
 
-    public async Task<string?> Login(LoginDto login)
+    public async Task<AuthTokenDto?> Login(LoginDto login)
     {
         var user = await _identityUserManager.FindByNameAsync(login.Username);
         if (user == null || !await _identityUserManager.CheckPasswordAsync(user, login.Password))
             return null;
 
-        return GenerateToken(user);
+        var token = GenerateToken(user);
+        
+        ProfileDto? profile = user != null ? new ProfileDto(user) : null;
+        return new AuthTokenDto(profile, token);
     }
 
     public async Task<AuthTokenDto?> SignUp(SignUpDto signUp)
@@ -65,6 +68,7 @@ public class UserAccountManager : IUserAccountManager
         var user = _dtoToModelMapper.SignUpToUser(signUp);
         user.SimpleFinAccessUrl = await _simpleFinGateway.GetAccessUrl(signUp.SimpleFinToken);
         var result = await _identityUserManager.CreateAsync(user, signUp.Password);
+        // _repo.createSetting(userId)
         if (!result.Succeeded) return null;
         var token = GenerateToken(user);
 

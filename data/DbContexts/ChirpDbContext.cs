@@ -10,4 +10,5 @@ public class ChirpDbContext : IdentityDbContext<User>
     public DbSet<Account> Accounts {get; set; }
     public DbSet<Transaction> Transactions {get; set; }
     public DbSet<Holding> Holdings {get; set; }
+    public DbSet<Setting> Settings {get;set;}
 } 

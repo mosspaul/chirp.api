@@ -45,8 +45,8 @@ public class UserController : ControllerBase
     {
         try
     {
-        var token = await _userManager.Login(loginDto);
-        return token != null ? Ok(new { token }) : Unauthorized("Login failed. Username or password is incorrect.");
+        var profile = await _userManager.Login(loginDto);
+        return profile != null ? Ok(profile) : Unauthorized("Login failed. Username or password is incorrect.");
     }
     catch (Exception ex)
     {
