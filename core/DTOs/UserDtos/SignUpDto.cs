@@ -8,11 +8,11 @@ public class SignUpDto
     public required string Username { get; set; }
     [JsonProperty("email")]
     public required string Email { get; set; }
-    [JsonProperty("first_name")]
+    [JsonProperty("firstName")]
     public required string FirstName { get; set; }
-    [JsonProperty("last_name")]
+    [JsonProperty("lastName")]
     public required string LastName { get; set; }
-    [JsonProperty("simple_fin_token")]
+    [JsonProperty("simpleFinToken")]
     public required string SimpleFinToken { get; set; }
     [JsonProperty("password")]
     public required string Password { get; set; }

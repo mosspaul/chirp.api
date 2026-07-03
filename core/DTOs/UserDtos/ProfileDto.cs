@@ -18,10 +18,10 @@ public class ProfileDto
     public string? Username { get; set; }
     [JsonProperty("email")]
     public string? Email { get; set; }
-    [JsonProperty("first_name")]
+    [JsonProperty("firstName")]
     public string? FirstName { get; set; }
-    [JsonProperty("last_name")]
+    [JsonProperty("lastName")]
     public string? LastName { get; set; }
-    [JsonProperty("user_id")]
+    [JsonProperty("userId")]
     public string UserId { get; set; }
 }

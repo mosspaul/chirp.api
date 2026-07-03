@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using core.DTOs.UserDtos;
 using core.Managers.Interfaces;
 using data.Models;
@@ -55,12 +56,16 @@ public class UserController : ControllerBase
     }
     // GET GetProfile -> recieves an id and with that gets the user's profile (returns profiledto)
     [Authorize]
-    [HttpGet("profile/{id}")]
-    public async Task<IActionResult> GetProfile(string id)
+    [HttpGet("me")]
+    public async Task<IActionResult> GetProfile()
     {
         try
         {
-            var profile = await _userManager.GetProfile(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+            var profile = await _userManager.GetProfile(userId);
             return profile != null ? Ok(profile) : NotFound();
         } 
         catch (Exception ex)

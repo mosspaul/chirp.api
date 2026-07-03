@@ -47,6 +47,7 @@ public class UserAccountManager : IUserAccountManager
 
     public async Task<ProfileDto?> GetProfile(string userId)
     {
+
         var user = await _repo.GetProfile(userId);
         return user != null ? new ProfileDto(user) : null;
     }
