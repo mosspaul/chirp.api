@@ -27,18 +27,6 @@ public class UserRepository : IUserRepository
         return false;
     }
 
-    public async Task<bool> EditPassword(string userId, string newPassword)
-    {
-        var userToUpdatePassword = await GetUserById(userId);
-        if (userToUpdatePassword != null)
-        {
-            userToUpdatePassword.PasswordHash = newPassword;
-            await _db.SaveChangesAsync();
-            return true;
-        }
-        return false;
-    }
-
     public async Task<User?> EditProfile(User user)
     {
         var userToUpdate = await GetUserById(user.Id);

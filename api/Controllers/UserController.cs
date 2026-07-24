@@ -74,12 +74,17 @@ public class UserController : ControllerBase
         }
     } 
     // PUT/PATCH EditAccount-> receives an new userdto and maps that to the new profile (id is not changed)
-    [HttpPut("profile/{id}")]
+    [Authorize]
+    [HttpPut("profile/")]
     public async Task<IActionResult> EditProfile([FromBody] ProfileDto profileDto)
     {
         try
         {
-            var profile = await _userManager.EditProfile(profileDto);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+            var profile = await _userManager.EditProfile(userId, profileDto);
             return profile != null ? Ok(profile) : NotFound();
         }
         catch (Exception ex)
@@ -88,12 +93,17 @@ public class UserController : ControllerBase
         }
     }
     // DELETE DeleteAccount -> recieves a userid with which to delete the account
-    [HttpDelete("profile/{id}")]
-    public async Task<IActionResult> DeleteProfile(string id)
+    [Authorize]
+    [HttpDelete("profile")]
+    public async Task<IActionResult> DeleteProfile()
     {
         try
         {
-            var accountDeleted = await _userManager.DeleteAccount(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+            var accountDeleted = await _userManager.DeleteAccount(userId);
             return accountDeleted ? NoContent() : BadRequest("There was a problem deleting the account.");
         } 
         catch (Exception ex)
@@ -102,15 +112,49 @@ public class UserController : ControllerBase
         }
     }
     // PUT/PATCH EditPassword -> receives a userid and new password to update
-    [HttpPatch("profile/{id}")]
-    public async Task<IActionResult> EditPassword(string id, [FromBody] EditPasswordDto editPassword)
+    [Authorize]
+    [HttpPatch("profile")]
+    public async Task<IActionResult> EditPassword([FromBody] EditPasswordDto editPassword)
     {
         try
         {
-            var passwordChanged = await _userManager.EditPassword(id, editPassword);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+            var passwordChanged = await _userManager.EditPassword(userId, editPassword);
             return passwordChanged ? NoContent() : BadRequest("Password could not be changed. Try again.");
-            
+
         } catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    // POST ForgotPassword -> generates a password reset token for the given email
+    // TODO: token is returned directly until an email service exists to deliver it out-of-band
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
+    {
+        try
+        {
+            var token = await _userManager.GeneratePasswordResetToken(forgotPasswordDto.Email);
+            return token != null ? Ok(new { token }) : NotFound();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    // POST ResetPassword -> receives an email, reset token, and new password to reset the password
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+    {
+        try
+        {
+            var passwordReset = await _userManager.ResetPassword(resetPasswordDto);
+            return passwordReset ? NoContent() : BadRequest("Password could not be reset. Try again.");
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }

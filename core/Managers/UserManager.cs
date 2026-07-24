@@ -33,14 +33,37 @@ public class UserAccountManager : IUserAccountManager
         return await _repo.DeleteAccount(userId);
     }
 
-    public async Task<bool> EditPassword(string userId, EditPasswordDto newPassword)
+    public async Task<bool> EditPassword(string userId, EditPasswordDto editPassword)
     {
-        return await _repo.EditPassword(userId, newPassword.NewPassword);
+        var user = await _identityUserManager.FindByIdAsync(userId);
+        if (user == null) return false;
+
+        var result = await _identityUserManager.ChangePasswordAsync(
+            user, editPassword.CurrentPassword, editPassword.NewPassword);
+        return result.Succeeded;
     }
 
-    public async Task<ProfileDto?> EditProfile(ProfileDto profile)
+    public async Task<string?> GeneratePasswordResetToken(string email)
     {
-        var user = _dtoToModelMapper.ProfileToUser(profile);
+        var user = await _identityUserManager.FindByEmailAsync(email);
+        if (user == null) return null;
+
+        return await _identityUserManager.GeneratePasswordResetTokenAsync(user);
+    }
+
+    public async Task<bool> ResetPassword(ResetPasswordDto resetPasswordDto)
+    {
+        var user = await _identityUserManager.FindByEmailAsync(resetPasswordDto.Email);
+        if (user == null) return false;
+
+        var result = await _identityUserManager.ResetPasswordAsync(
+            user, resetPasswordDto.Token, resetPasswordDto.NewPassword);
+        return result.Succeeded;
+    }
+
+    public async Task<ProfileDto?> EditProfile(string userId, ProfileDto profile)
+    {
+        var user = await _repo.GetProfile(userId);
         var updatedUser = await _repo.EditProfile(user);
         return updatedUser != null ? new ProfileDto(updatedUser) : null;
     }
