@@ -14,6 +14,17 @@ public class FinanceRepository : IFinanceRepository
         _db = db;
     }
 
+    public async Task<List<Transaction>> GetTransactionsForUser(string userId)
+    {
+        var transactions = await _db.Connections
+            .Where(c => c.UserId == userId)
+            .SelectMany(c => c.Accounts)
+            .SelectMany(a => a.Transactions)
+            .ToListAsync();
+        return transactions;
+       
+    }
+
     public async Task<List<Connection>> GetConnectionsForUser(string userId)
     {
         var query =  _db.Connections

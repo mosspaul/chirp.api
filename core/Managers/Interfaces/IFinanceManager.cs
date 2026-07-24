@@ -1,6 +1,6 @@
 using core.DTOs.FinanceDtos;
 
-namespace Managers.Interfaces;
+namespace core.Managers.Interfaces;
 
 public interface IFinanceManager
 {

@@ -7,4 +7,5 @@ public interface IFinanceRepository
 {
     Task UpsertConnections(List<Connection> connections,  CancellationToken ct);
     Task<List<Connection>> GetConnectionsForUser(string userId);
+    Task<List<Transaction>> GetTransactionsForUser(string userId);
 }

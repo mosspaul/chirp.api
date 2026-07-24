@@ -12,7 +12,6 @@ using data.Models;
 using data.Repositories;
 using data.Repositories.Interfaces;
 using Managers;
-using Managers.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +42,7 @@ builder.Services.AddHttpClient<SimpleFinBridgeGateway>();
 builder.Services.AddScoped<ISimpleFinManager, SimpleFinManager>();
 builder.Services.AddScoped<ISimpleFinSyncJob, SimpleFinSyncJob>();
 builder.Services.AddScoped<IFinanceManager, FinanceManager>();
+builder.Services.AddScoped<ITransactionManager, TransactionManager>();
 
 // Add Data layer -> make function later
 builder.Services.AddScoped<IUserRepository, UserRepository>();

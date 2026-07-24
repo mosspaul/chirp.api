@@ -1,7 +1,7 @@
 using core.DTOs.FinanceDtos;
 using data.Models;
 using data.Repositories.Interfaces;
-using Managers.Interfaces;
+using core.Managers.Interfaces;
 
 namespace Managers;
 public class FinanceManager : IFinanceManager

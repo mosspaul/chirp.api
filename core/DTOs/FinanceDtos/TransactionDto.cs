@@ -8,6 +8,7 @@ public class TransactionDto
     public TransactionDto(Transaction transaction)
     {
         Id = transaction.Id;
+        AccountId = transaction.AccountId;
         Posted = transaction.Posted;
         TransactedAt = transaction.TransactedAt;
         Description = transaction.Description;
@@ -16,6 +17,7 @@ public class TransactionDto
         Amount = transaction.Amount;
     }
     public int Id {get; set;}
+    public int AccountId {get;set;}
     public DateTime Posted {get;set;}
     public DateTime TransactedAt {get;set;}
     public string? Description {get;set;}

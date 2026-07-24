@@ -18,4 +18,6 @@ public class Transaction
     public string? Memo {get;set;}
     public string? Payee {get;set;}
     public double Amount {get;set;}
+    public int? CategoryId {get;set;}
+    public Category? Category {get;set;}
 }
