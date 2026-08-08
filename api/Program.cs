@@ -35,6 +35,46 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Chirp API",
+        Version = "v1",
+        Description = "API for managing chirp events, finance, and user accounts"
+    });
+
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+        c.IncludeXmlComments(xmlPath);
+
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme"
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
+    });
+});
+
 // Add Core layer -> make function later
 builder.Services.AddScoped<IUserAccountManager, UserAccountManager>();
 builder.Services.AddScoped<IDtoToModelMapper, DtoToModelMapper>();
@@ -43,10 +83,14 @@ builder.Services.AddScoped<ISimpleFinManager, SimpleFinManager>();
 builder.Services.AddScoped<ISimpleFinSyncJob, SimpleFinSyncJob>();
 builder.Services.AddScoped<IFinanceManager, FinanceManager>();
 builder.Services.AddScoped<ITransactionManager, TransactionManager>();
+builder.Services.AddScoped<IEventManager, EventManager>();
+builder.Services.AddScoped<IEventCategoryManager, EventCategoryManager>();
 
 // Add Data layer -> make function later
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFinanceRepository, FinanceRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IEventCategoryRepository, EventCategoryRepository>();
 
 
 builder.Services.AddDbContext<ChirpDbContext>(opt =>
@@ -106,5 +150,13 @@ app.UseRouting();
 app.UseCors("AllowAngular");
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chirp API v1");
+    c.RoutePrefix = "swagger";
+});
+
 app.MapControllers();
 app.Run();
