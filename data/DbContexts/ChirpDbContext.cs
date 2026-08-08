@@ -11,4 +11,7 @@ public class ChirpDbContext : IdentityDbContext<User>
     public DbSet<Transaction> Transactions {get; set; }
     public DbSet<Holding> Holdings {get; set; }
     public DbSet<Setting> Settings {get;set;}
+    public DbSet<Event> Events {get; set; }
+    public DbSet<EventCategory> EventCategories {get; set; }
+    public DbSet<RecurrenceRule> RecurrenceRules {get; set; }
 } 
